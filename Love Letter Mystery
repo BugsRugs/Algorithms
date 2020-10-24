@@ -1,0 +1,76 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    static int theLoveLetterMystery(String s) {
+        int counter = 0;
+        int p1 = 0;
+        int p2 = s.length() - 1;
+        while(isPalindrome(s) == false){
+            for(int i = 0; i < s.length(); i++){
+                if(p1 <= p2){
+                while(s.charAt(i) != s.charAt(s.length() - i - 1)){
+                if(s.charAt(i) < s.charAt(s.length() - i - 1)){
+                    String prior = s.substring(0, s.length() - i - 1);
+                    char change = s.charAt(s.length() - i - 1);
+                    change--;
+                    String result = prior + change + s.substring(s.length() - i, s.length());
+                    s = result;
+                }else{
+                    String prior2 = s.substring(0, i);
+                    char change2 = s.charAt(i);
+                    change2--;
+                    String result2 = prior2 + change2 + s.substring(i + 1, s.length());
+                    s = result2;
+                }
+                    counter++;
+                }
+                    p1++;
+                    p2--;
+                }
+              }
+           }
+        return counter;
+        }
+    
+    static boolean isPalindrome(String s){
+        boolean b = true;
+         for(int i = 0; i < s.length(); i++){
+             if(s.charAt(i) == (s.charAt(s.length() - i - 1))){
+                 b = true;
+             }else{
+                 b = false;
+                 break;
+             }
+         }
+       return b;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int qItr = 0; qItr < q; qItr++) {
+            String s = scanner.nextLine();
+
+            int result = theLoveLetterMystery(s);
+
+            bufferedWriter.write(String.valueOf(result));
+            bufferedWriter.newLine();
+        }
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
