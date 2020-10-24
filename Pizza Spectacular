@@ -1,0 +1,51 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static int pizzaCombos(int index, int budget, ArrayList<Integer> pizzas) {
+        int sum = 0, i = 0;
+        if(index > 40) return 0;
+        if(pizzas.isEmpty()) return 0;
+            if(budget - pizzas.get(i) == 0){
+                sum += pizzas.get(i);
+                pizzas.remove(i);
+                index += 1;
+                return sum;
+            }if(budget - pizzas.get(i) > 0){
+                int temp = pizzas.get(i);
+                int temp2 = budget - pizzas.get(i);
+                pizzas.remove(i);
+                index += 1;
+                sum = sum + temp + pizzaCombos(index, temp2, pizzas);
+                return sum;
+            }if(budget - pizzas.get(i) < 0){
+                pizzas.remove(i);
+                sum = sum + pizzaCombos(index, budget, pizzas);
+                return sum;
+            }
+        return sum;
+  }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int val = sc.nextInt();
+        ArrayList<Integer> contents = new ArrayList<Integer>();
+        ArrayList<Integer> contents10 = new ArrayList<Integer>();
+        contents.add(val);
+        while(sc.hasNext() == true){
+            val = sc.nextInt();
+            contents.add(val);
+        }
+        int budget = contents.get(contents.size() - 1);
+        contents.remove(contents.size() - 1);
+        Collections.sort(contents);
+        Collections.reverse(contents);
+        /////////////////
+        System.out.println(pizzaCombos(1, budget, contents));
+        
+    }
+}
